@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>View Periods - FullStop</title>
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container text-center">
+		<div sec:authorize="isAuthenticated()">
+			<form th:action="@{/logout}" method="post">
+				<p>
+					Welcome <b><span sec:authentication="name">UserName</span></b>
+					&nbsp;
+					<span sec:authentication="principal.authorities">Roles</span>
+				</p>
+				<input type="submit" value="Log Out" />
+			</form>
+		</div>
+		<div>
+			<h4><a sec:authorize="hasAnyAuthority('USER')" th:href="@{/add_period}">Click here to add Period Data</a></h4>
+		</div>
+		<div>
+			<h4><a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/users}">Click here to view list of all Users</a></h4>
+		</div>
+		<div>
+			<h1>Your Period History</h1>
+		</div>
+		<div>
+			<table class="table table-striped table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>Period ID</th>
+						<th>Period Start Day</th>
+						<th>Period Start Month</th>
+						<th>Period Start Year</th>
+						<th>Period End Day</th>
+						<th>Period End Month</th>
+						<th>Period End Year</th>
+						<th>Pain Level</th>
+						
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="period: ${listPeriods}">
+						<td th:text="${period.id}">ID</td>
+						<td th:text="${period.startDay}">Start Day</td>
+						<td th:text="${period.startMonth}">Start Month</td>
+						<td th:text="${period.startYear}">Start Year</td>
+						<td th:text="${period.endDay}">End Day</td>
+						<td th:text="${period.endMonth}">End Month</td>
+						<td th:text="${period.endYear}">End Year</td>
+						<td th:text="${period.painLevel}">Pain Level</td>
+						
+						<td sec:authorize="hasAnyAuthority('ADMIN', 'USER')">
+							<a th:href="@{'/edit/' + ${period.id}}">Edit</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<a sec:authorize="hasAuthority('ADMIN')" th:href="@{'/delete/' + ${period.id}}">Delete</a>
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	
+</body>
+</html>

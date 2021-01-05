@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Period Edited Successfully - FullStop</title>
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container text-center">
+		<div>
+			<form th:action="@{/logout}" method="post">
+				<p>
+					Welcome <b>[[${#request.userPrincipal.principal.userName}]]</b>
+				</p>
+				<input type="submit" value="Log Out" />
+			</form>
+		</div>
+		<div>
+			<h3>You have successfully edited your data</h3>
+			<h4><a th:href="@{/view_period}">Click here to view your data</a></h4>
+		</div>
+	</div>
+	
+</body>
+</html>
